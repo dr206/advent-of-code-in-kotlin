@@ -25,3 +25,15 @@ fun <T> List<T>.split(predicate: (T) -> Boolean): List<List<T>> =
         else acc.last().add(item)
         acc
     }
+
+/**
+ * Splits a string into a pair based on given delimiter.
+ */
+fun <T> String.pair(delimiter: String): Pair<T, T> = split(delimiter)
+    .let { Pair(it[0] as T, it[1] as T) }
+
+
+/**
+ * Splits a list of strings into a list of pairs based on given delimiter.
+ */
+fun <T> List<String>.pairs(delimiter: String): List<Pair<T, T>> = map { it.pair(delimiter) }
