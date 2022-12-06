@@ -19,7 +19,7 @@ fun main() {
 
     fun findTopOfStacks(
         input: List<String>,
-        crateMovingProcess: (List<Stack<Char>>, String, String, String) -> Unit
+        orderVariables: (Int, Int) -> Pair<Int, Int>
     ): String {
         val (moves, initialSate) = input.partition { it.contains("move") }
         val stacks: List<Stack<Char>> = createStacks(initialSate)
@@ -27,9 +27,20 @@ fun main() {
         fun List<Stack<Char>>.print() = this.forEach { println(it.toString()) }
         stacks.print()
         for (move in moves) {
-            val (amount, _, src, _, dest) = move.split(" ").subList(1, 6)
-            crateMovingProcess(stacks, amount, src, dest)
-            println("$amount, _, $src, _, $dest")
+            val (numberOfCratesToBeMoved, _, src, _, dest) = move.split(" ").subList(1, 6)
+
+            fun crateMovingProcess(timesCranePerformsALift: Int, cratesCraneMovesPerLift: Int) {
+                repeat(timesCranePerformsALift) {
+                    (0 until cratesCraneMovesPerLift).fold(mutableListOf<Char>()) { acc, _ ->
+                        acc.add(stacks[src.toInt() - 1].pop())
+                        acc
+                    }.reversed().onEach { stacks[dest.toInt() - 1].push(it) }
+                }
+            }
+            val (timesCranePerformsALift, cratesCraneMovesPerLift) = orderVariables(numberOfCratesToBeMoved.toInt(), 1)
+            crateMovingProcess(timesCranePerformsALift, cratesCraneMovesPerLift)
+
+            println("$numberOfCratesToBeMoved, _, $src, _, $dest")
             stacks.print()
         }
 
@@ -38,23 +49,13 @@ fun main() {
     }
 
     fun part1(input: List<String>): String {
-        val moveCreatesOneByOne = { stacks: List<Stack<Char>>, amount: String, src: String, dest: String ->
-            (0 until amount.toInt()).forEach { _ ->
-                stacks[dest.toInt() - 1].push(stacks[src.toInt() - 1].pop())
-            }
-        }
-        return findTopOfStacks(input, moveCreatesOneByOne)
+        val identity = { a:Int, b:Int -> Pair(a, b) }
+        return findTopOfStacks(input, identity)
     }
 
     fun part2(input: List<String>): String {
-        val moveMultipleCratesAtATime = { stacks: List<Stack<Char>>, amount: String, src: String, dest: String ->
-            val removed = (0 until amount.toInt()).fold(mutableListOf<Char>()) { acc, _ ->
-                acc.add(stacks[src.toInt() - 1].pop())
-                acc
-            }
-            removed.reversed().forEach { stacks[dest.toInt() - 1].push(it) }
-        }
-        return findTopOfStacks(input, moveMultipleCratesAtATime)
+        val swap = { a:Int, b:Int -> Pair(b, a) }
+        return findTopOfStacks(input, swap)
     }
 
     // test if implementation meets criteria from the description, like:
