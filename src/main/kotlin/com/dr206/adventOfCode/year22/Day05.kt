@@ -1,3 +1,6 @@
+package com.dr206.adventOfCode.year22
+
+import com.dr206.adventOfCode.readInput
 import java.util.Stack
 
 fun main() {

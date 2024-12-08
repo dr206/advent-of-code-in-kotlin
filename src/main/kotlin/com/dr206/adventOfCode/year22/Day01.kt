@@ -1,3 +1,8 @@
+package com.dr206.adventOfCode.year22
+
+import com.dr206.adventOfCode.readInput
+import com.dr206.adventOfCode.split
+
 fun main() {
 
     fun getCounts(input: List<String>): List<Int> = input

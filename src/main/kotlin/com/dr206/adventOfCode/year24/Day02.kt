@@ -1,3 +1,5 @@
+package com.dr206.adventOfCode.year24
+
 fun main() {
     val fileInput = """
     """

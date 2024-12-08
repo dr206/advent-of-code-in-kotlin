@@ -1,3 +1,8 @@
+package com.dr206.adventOfCode.year22
+
+import com.dr206.adventOfCode.pairs
+import com.dr206.adventOfCode.readInput
+
 fun main() {
 
     fun part1(input: List<String>): Int {

@@ -1,3 +1,7 @@
+package com.dr206.adventOfCode.year22
+
+import com.dr206.adventOfCode.readInput
+
 fun main() {
 
     fun String.getEndIndexOfStartMarkerOfLength(length: Int): Int = this.indexOf(
